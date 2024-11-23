@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    @apply hidden;
+  }
+}
+
+video {
+  @apply h-[200px] w-[300px] max-h-[300px] max-w-[400px] object-cover;
+}
+
+.main_controls_btn {
+  @apply p-4 mr-3 my-2 rounded-full cursor-pointer;
+}
