@@ -1,0 +1,46 @@
+version: "3.1"
+
+networks:
+  my-net:
+    driver: bridge
+
+services:
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - my-net
+
+  streamline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: streamline
+    container_name: streamline
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+    ports:
+      - "80:3000"
+    networks:
+      - my-net
+
+  socket:
+    build:
+      context: ./socket
+      dockerfile: Dockerfile
+    image: socket
+    container_name: socket
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+    ports:
+      - "3002:3002"
+      - "2000-2201:2000-2201"
+      - "2000-2201:2000-2201/udp"
+    networks:
+      - my-net
